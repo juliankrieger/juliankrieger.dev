@@ -8,7 +8,7 @@ module.exports = {
       summary: `Intern at Ergosign GmbH`,
     },
     description: `a programmer's blog`,
-    siteUrl: `https://gatsby-starter-blog-demo.netlify.app/`,
+    siteUrl: `http://juliankrieger.dev`,
     social: {
       twitter: `kylemathews`,
     },
@@ -90,5 +90,6 @@ module.exports = {
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
+    'gatsby-plugin-no-javascript'
   ],
 }
