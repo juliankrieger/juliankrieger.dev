@@ -1,5 +1,6 @@
 const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
+const { GraphQLBoolean } = require('gatsby/graphql');
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
@@ -16,6 +17,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           limit: 1000
         ) {
           nodes {
+            published
             fields {
               slug
             }
@@ -47,6 +49,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       const previous = index === posts.length - 1 ? null : posts[index + 1]
       const next = index === 0 ? null : posts[index - 1]
 
+      if (!post.published) {
+        return
+      }
       createPage({
         path: post.fields.slug,
         component: blogPost,
@@ -102,16 +107,44 @@ exports.createSchemaCustomization = ({ actions }) => {
     type MarkdownRemark implements Node {
       frontmatter: Frontmatter
       fields: Fields
+      published: Boolean
     }
 
     type Frontmatter {
       title: String
       description: String
       date: Date @dateformat
+      draft: Boolean
     }
 
     type Fields {
       slug: String
     }
   `)
+}
+
+exports.setFieldsOnGraphQLNodeType = ({ type }) => {
+  // if the node is a markdown file, add the `published` field
+  if (type.name === 'MarkdownRemark') {
+    return {
+      published: {
+        type: GraphQLBoolean,
+        resolve: ({ frontmatter }) => {
+          /*
+          `published` is always true in development
+              so both drafts and finished posts are built
+          */
+          if (process.env.NODE_ENV !== 'production') {
+            return true
+          }
+          /*
+          return the opposite of the `draft` value,
+          i.e. if draft = true : published = false
+          */
+          return !frontmatter.draft
+        },
+      },
+    }
+  }
+  return {}
 }

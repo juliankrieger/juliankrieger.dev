@@ -37,7 +37,8 @@ const Bio = () => {
   const author = data.site.siteMetadata?.author
   const social = data.site.siteMetadata?.social
 
-  const avatar = data?.avatar?.childImageSharp?.fixed
+  //const avatar = data?.avatar?.childImageSharp?.fixed
+  const avatar = undefined;
 
   return (
     <div className="bio">
@@ -52,13 +53,39 @@ const Bio = () => {
         />
       )}
       {author?.name && (
-        <p>
-          Written by <strong>{author.name}</strong> {author?.summary || null}
-          {` `}
-          <a href={`https://twitter.com/${social?.twitter || ``}`}>
-            You should follow them on Twitter
-          </a>
-        </p>
+        <div>
+          <strong>{author.name}</strong>
+          <br/>
+          <i>{author?.summary || null}</i>
+          <p>
+            {
+              author.name.split('').map(_ => "=")
+            }
+          </p>
+          <br />
+          <p>
+            #### Skills 
+          </p>
+          <ol>
+            <p> - JavaScript, TypeScript, Python, C#, Rust and others</p>
+            <p> - React, Vue and Node.js</p>
+            <p> - <i>DefinitelyTyped</i> contributor</p>
+          </ol>
+          <p>#### About</p>
+          <br />
+          <p>
+            I enjoy learning about new programming languages, frameworks and tools in my free time. Recently, I've been infatuated 
+            with <a href="https://www.rust-lang.org/">Rust</a>.
+          </p>
+          <br />
+          <p>#### Noteable Projects</p>
+          <br />
+          <p>
+            I wrote a driver for a specific type of SNES Controller. You can find it 
+            <a href="https://github.com/juliankrieger/iBuffalo-Snes-Controller-Driver"> here</a>
+          </p>
+          
+        </div>
       )}
     </div>
   )

@@ -1,20 +1,57 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
+import { useForm, usePlugin } from "tinacms";
+import { useRemarkForm } from 'gatsby-tinacms-remark'
 
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 const BlogPostTemplate = ({ data, pageContext, location }) => {
-  const post = data.markdownRemark
+
+  console.log(data)
+
   const siteTitle = data.site.siteMetadata?.title || `Title`
   const { previous, next } = pageContext
+
+  const post = data.markdownRemark;
+
+  const [remark, form] = useRemarkForm(data.markdownRemark, {
+    label: "Blog Post",
+    fields: [
+      {
+        label: 'Title',
+        name: 'frontmatter.title',
+        description: 'Enter the title of the post here',
+        component: 'text',
+      },
+      {
+        label: 'Description',
+        name: 'frontmatter.description',
+        description: 'Enter the post description',
+        component: 'textarea',
+      },
+      {
+        name: "frontmatter.draft",
+        component: "toggle",
+        label: "Draft",
+      },
+      {
+        label: "Body",
+        name: "rawMarkdownBody",
+        description: 'Enter the post body',
+        component: 'markdown'
+      },
+    ]
+  });
+
+  usePlugin(form);
 
   return (
     <Layout location={location} title={siteTitle}>
       <SEO
-        title={post.frontmatter.title}
-        description={post.frontmatter.description || post.excerpt}
+        title={remark.frontmatter.title}
+        description={remark.frontmatter.description || post.excerpt}
       />
       <article
         className="blog-post"
@@ -22,17 +59,16 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
         itemType="http://schema.org/Article"
       >
         <header>
-          <h1 itemProp="headline">{post.frontmatter.title}</h1>
+          <h1 itemProp="headline">{remark.frontmatter.title}</h1>
           <p>{post.frontmatter.date}</p>
         </header>
         <section
           dangerouslySetInnerHTML={{ __html: post.html }}
           itemProp="articleBody"
         />
-        <hr />
-        <footer>
-          <Bio />
-        </footer>
+       
+        <br/>
+      
       </article>
       <nav className="blog-post-nav">
         <ul
@@ -60,6 +96,7 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
           </li>
         </ul>
       </nav>
+      <br/>
     </Layout>
   )
 }
@@ -73,7 +110,8 @@ export const pageQuery = graphql`
         title
       }
     }
-    markdownRemark(fields: { slug: { eq: $slug } }) {
+    markdownRemark(published: { eq: true },fields: { slug: { eq: $slug } }) {
+      ...TinaRemark
       id
       excerpt(pruneLength: 160)
       html
@@ -81,6 +119,7 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
+        draft
       }
     }
   }

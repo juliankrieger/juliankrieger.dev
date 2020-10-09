@@ -1,17 +1,40 @@
+const path = require('path');
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog`,
+    title: `juliankrieger.dev`,
     author: {
-      name: `Kyle Mathews`,
-      summary: `who lives and works in San Francisco building useful things.`,
+      name: `Julian Krieger`,
+      summary: `Intern at Ergosign GmbH`,
     },
-    description: `A starter blog demonstrating what Gatsby can do.`,
+    description: `a programmer's blog`,
     siteUrl: `https://gatsby-starter-blog-demo.netlify.app/`,
     social: {
       twitter: `kylemathews`,
     },
   },
   plugins: [
+    {
+      resolve: 'gatsby-plugin-tinacms',
+      options: {
+        // The CMS will be disabled on your production site
+        enabled: process.env.NODE_ENV !== 'production',
+        sidebar: true,
+        plugins: [
+          {
+            resolve: 'gatsby-tinacms-git',
+            options: {
+              defaultCommitMessage: 'Edited with TinaCMS',
+              defaultCommitName: 'Julian Krieger',
+              defaultCommitEmail: 'julian.krieger@me.com',
+              pushOnCommit: true,
+            },
+          },
+          'gatsby-tinacms-remark',
+          'gatsby-tinacms-json',
+        ],
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
