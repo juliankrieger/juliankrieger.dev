@@ -1,5 +1,5 @@
 ---
-title: The missing attribute when comparing Content Management Systems
+title: The missing attribute in comparing Content Management Systems
 draft: true
 description: >-
   When searching for a perfect CMS <--> programming language combination for
