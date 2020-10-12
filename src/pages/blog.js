@@ -1,9 +1,30 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
+import { RemarkCreatorPlugin } from 'gatsby-tinacms-remark';
+import { withPlugin } from 'tinacms';
 
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+
+const CreatePostPlugin = new RemarkCreatorPlugin({
+  label: 'New Blog Post',
+  filename: form => {
+    return `content/blog/${form.title}/index.md`
+  },
+  frontmatter: form => {
+    date: new Date()
+  },
+  fields: [
+    {
+      name: 'filename',
+      component: 'text',
+      label: 'Filename',
+      placeholder: 'content/blog/hello-world/index.md',
+      description: 'Full, relative path to new Markdown file'
+    }
+  ]
+})
 
 const Blog = ({ data, location }) => {
     const siteTitle = data.site.siteMetadata?.title || `Title`
@@ -62,7 +83,7 @@ const Blog = ({ data, location }) => {
     )
   }
   
-  export default Blog
+  export default withPlugin(Blog, CreatePostPlugin);
   
   export const pageQuery = graphql`
     query {
