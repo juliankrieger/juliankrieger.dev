@@ -1,7 +1,7 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
 import { useForm, usePlugin } from "tinacms";
-import { useRemarkForm } from 'gatsby-tinacms-remark'
+import { useRemarkForm, DeleteAction } from 'gatsby-tinacms-remark'
 
 import Bio from "../components/bio"
 import Layout from "../components/layout"
@@ -18,6 +18,7 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
 
   const [remark, form] = useRemarkForm(data.markdownRemark, {
     label: "Blog Post",
+    actions: [DeleteAction],
     fields: [
       {
         label: 'Title',
