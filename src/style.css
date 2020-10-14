@@ -92,7 +92,6 @@ footer {
   border-top: 3px dotted #7f7f7f;
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
   justify-content: space-around;
 }
 
@@ -255,7 +254,6 @@ a:visited {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  flex-wrap: nowrap;
   align-items: baseline;
 }
 
