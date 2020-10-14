@@ -8,7 +8,7 @@ module.exports = {
       summary: `Intern at Ergosign GmbH`,
     },
     description: `a programmer's blog`,
-    siteUrl: `http://juliankrieger.dev`,
+    siteUrl: `https://juliankrieger.dev`,
     social: {
       twitter: `kylemathews`,
     },
