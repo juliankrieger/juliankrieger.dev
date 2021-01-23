@@ -14,6 +14,10 @@ There was one problem left though. Rebuilding the docker-image when using new de
 Here's the Dockerfile I used:
 
     # syntax=docker/dockerfile:experimental
+    # The above step enabled specific experimental syntax, namely the 
+    # "--mount-type=cache parameter, a named cache volume managed by 
+    # Docker BuildKit
+    
     FROM rust as planner
     WORKDIR app
     RUN cargo install cargo-chef
