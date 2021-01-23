@@ -10,17 +10,15 @@ import SEO from "../components/seo"
 const CreatePostPlugin = new RemarkCreatorPlugin({
   label: 'New Blog Post',
   filename: form => {
-    return `content/blog/${form.title}/index.md`
-  },
-  frontmatter: form => {
-    date: new Date()
+    console.log(form);
+    return `content/blog/${form.filename}/index.md`
   },
   fields: [
     {
       name: 'filename',
       component: 'text',
       label: 'Filename',
-      placeholder: 'content/blog/hello-world/index.md',
+      placeholder: 'hello-world',
       description: 'Full, relative path to new Markdown file'
     }
   ]
