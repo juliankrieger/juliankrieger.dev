@@ -1,15 +1,15 @@
 ---
 title: Combining rust-chef and Docker BuildKit
-draft: true
+draft: false
 description: >-
   Combining rust-chef and Docker BuildKit to properly cache cargo dependencies
   and incremental builds in a fast way.
 ---
 Properly caching downloaded cargo dependencies and building rust incrementally inside a docker environment can be a daunting task. There's quite a bit of differing information across the web. Popular solutions like [building a skeleton project with the needed Cargo.toml and rebuilding with the true source folder](https://stackoverflow.com/questions/58473606/cache-rust-dependencies-with-docker-build) did not work for me. Cargo would happily download all my dependencies every time I tried rebuilding the docker image. To fix this, I used [cargo-chef](https://crates.io/crates/cargo-chef), a handy cargo extension for this exact use case. 
 
-There was one problem left though. Rebuilding the docker-image when using new dependencies still took _forever_. To fix this and a couple of smaller caching issues, I used [Docker BuildKit]()
+There was one problem left though. Rebuilding the docker-image when using new dependencies still took _forever_. To fix this and a couple of smaller caching issues, I used [Docker BuildKit](), the new experimental Docker engine. Using this reduced my compile times from around 6 minutes to an average of 2. 
 
-The solution:
+Here's the Dockerfile I used:
 
     # syntax=docker/dockerfile:experimental
     FROM rust as planner
