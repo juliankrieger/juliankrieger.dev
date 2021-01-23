@@ -1,6 +1,6 @@
 ---
 title: >-
-  Combining rust-chef and Docker BuildKit for dependency caching and faster
+  Combining rust-chef and Docker BuildKit for easy dependency caching and faster
   build times
 draft: false
 description: >-
